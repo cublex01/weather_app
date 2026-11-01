@@ -415,14 +415,22 @@
     cityInput.addEventListener('blur', () => setTimeout(hideSuggestions, 120));
 
     /* ---------- My location ---------- */
-    $('#locateBtn').addEventListener('click', () => {
+    const locateBtn = $('#locateBtn');
+    locateBtn.addEventListener('click', () => {
         if (!navigator.geolocation) return showError("Your browser doesn't support finding your location. Try searching for a city instead.");
         setStatus('Finding your location…');
+        locateBtn.classList.add('locating');
         navigator.geolocation.getCurrentPosition(
-            (pos) => loadLocation({ name: 'My location', region: '', country: '', lat: pos.coords.latitude, lon: pos.coords.longitude, mine: true }),
-            (err) => showError(err.code === 1
-                ? 'Location access was blocked. You can still search for a city.'
-                : "Couldn't find your location. Try searching for a city instead."),
+            (pos) => {
+                locateBtn.classList.remove('locating');
+                loadLocation({ name: 'My location', region: '', country: '', lat: pos.coords.latitude, lon: pos.coords.longitude, mine: true });
+            },
+            (err) => {
+                locateBtn.classList.remove('locating');
+                showError(err.code === 1
+                    ? 'Location access was blocked. You can still search for a city.'
+                    : "Couldn't find your location. Try searching for a city instead.");
+            },
             { timeout: 10000, maximumAge: 600000 },
         );
     });
