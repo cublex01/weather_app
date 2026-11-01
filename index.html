@@ -3,31 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather App</title>
+    <title>Weather — current conditions and forecast</title>
+    <meta name="description" content="Search any city for the current weather, the next 24 hours and a 7-day forecast. Built by Cublex01.">
+    <meta name="theme-color" content="#14478f">
+    <meta property="og:title" content="Weather app">
+    <meta property="og:description" content="Current weather, hourly and 7-day forecast for any city.">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="app.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
-<div class="container">
-     <div class="box bg-dark text-light p-3 rounded">
-    <div class="weather text-start">
-        <h1 class="text-success">Weather App</h1>
-        <p>Enter any city to get weather details</p>
-        <input class="form-control" type="text" placeholder="City Name" id="cityInput">
-        <button class="btn btn-primary w-100" type="button" id="submitBtn">Search</button>
+<main class="app">
+
+    <header class="top">
+        <h1 class="brand"><span aria-hidden="true">🌤️</span> Weather</h1>
+        <div class="units" role="group" aria-label="Temperature units">
+            <button type="button" data-unit="metric" aria-pressed="true">°C</button>
+            <button type="button" data-unit="imperial" aria-pressed="false">°F</button>
+        </div>
+    </header>
+
+    <section class="search" aria-label="Find a city">
+        <div class="search-box">
+            <label for="cityInput" class="sr-only">Search for a city</label>
+            <input id="cityInput" type="text" placeholder="Search for a city…" autocomplete="off" autocapitalize="off" spellcheck="false"
+                   role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="suggestions">
+            <button id="locateBtn" class="btn" type="button" title="Use my location">
+                <span aria-hidden="true">📍</span><span class="btn-text">My location</span>
+            </button>
+            <ul id="suggestions" role="listbox" aria-label="City suggestions" hidden></ul>
+        </div>
+        <div id="chips" class="chips" aria-label="Quick picks"></div>
+    </section>
+
+    <div id="status" class="status" role="status" aria-live="polite"></div>
+
+    <div id="skeleton" class="skeleton" hidden aria-hidden="true">
+        <div class="sk sk-big"></div>
+        <div class="sk sk-mid"></div>
+        <div class="sk sk-mid"></div>
     </div>
 
-    <div class="result">
-        <h2>Weather Details</h2>
-        <p>Temperature: <span id="temp"></span></p>
-        <p>Humidity: <span id="humidity"></span></p>
-        <p>Wind Speed: <span id="windSpeed"></span></p>
-      
+    <div id="weather" hidden>
+
+        <section class="card now" aria-labelledby="placeName">
+            <div class="now-main">
+                <h2 id="placeName" class="place"></h2>
+                <p id="placeSub" class="muted"></p>
+                <p id="localTime" class="muted"></p>
+                <div class="temp-row">
+                    <span id="icon" class="icon" role="img" aria-label=""></span>
+                    <span id="temp" class="temp"></span>
+                </div>
+                <p id="desc" class="desc"></p>
+                <p id="feels" class="muted"></p>
+            </div>
+            <div id="tiles" class="tiles"></div>
+        </section>
+
+        <section class="card" aria-labelledby="hoursTitle">
+            <h3 id="hoursTitle" class="sec-title">Next 24 hours</h3>
+            <div id="hours" class="hours" role="region" aria-label="Hourly forecast, scrollable" tabindex="0"></div>
+        </section>
+
+        <section class="card" aria-labelledby="daysTitle">
+            <h3 id="daysTitle" class="sec-title">7-day forecast</h3>
+            <div id="days" class="days"></div>
+        </section>
+
     </div>
-   
-</div>
-<span class="text-muted text-center mt-3">&copy;2025 Cublex01</span>
-</div>
-    <script src="app.js"></script>
+
+    <footer class="foot">
+        <a href="https://open-meteo.com/" target="_blank" rel="noopener">Weather data by Open-Meteo.com</a>
+        <span aria-hidden="true">·</span>
+        <span>&copy; 2025 Cublex01</span>
+    </footer>
+
+</main>
+<script src="app.js"></script>
 </body>
 </html>
